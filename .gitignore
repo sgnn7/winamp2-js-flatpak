@@ -17,3 +17,9 @@ node_modules/
 
 # VIM swapfiles
 *.sw[po]
+
+# Flatpak-related files
+build/
+repo/
+*.bundle
+.flatpak-builder/
