@@ -1,0 +1,163 @@
+{
+    "app-id": "com.jordaneldredge.Winamp2",
+    "branch": "stable",
+    "base": "io.atom.electron.BaseApp",
+    "base-version": "stable",
+    "runtime": "org.freedesktop.Platform",
+    "runtime-version": "1.6",
+    "sdk": "org.freedesktop.Sdk",
+    "command": "winamp2",
+    "separate-locales": false,
+    "finish-args": [
+        /* X11 + XShm access */
+        "--share=ipc", "--socket=x11",
+        /* Sound access */
+        "--socket=pulseaudio",
+        /* Network access */
+        "--share=network",
+        /* OpenGL */
+        "--device=dri",
+        /* Media keys: */
+        "--talk-name=org.gnome.SettingsDaemon",
+        "--talk-name=org.freedesktop.Notifications",
+        "--talk-name=org.gnome.SessionManager",
+        "--own-name=org.mpris.MediaPlayer2.spotify",
+        "--filesystem=xdg-music:ro"
+    ],
+    "build-options" : {
+        "build-args": [
+            "--share=network"
+        ],
+        "cflags": "-O2 -g",
+        "cxxflags": "-O2 -g",
+        "env": {
+            "V": "1"
+        }
+    },
+    "cleanup": ["/include",
+                "/lib/pkgconfig",
+                "/share/pkgconfig",
+                "/share/aclocal",
+                "/man",
+                "/share/man",
+                "/share/gtk-doc",
+                "/share/doc",
+                "*.la",
+                "*.a"],
+    "modules": [
+        {
+            "name": "ffmpeg",
+            "config-opts": [
+                "--enable-shared",
+                "--disable-static",
+                "--enable-gnutls",
+                "--disable-doc",
+                "--disable-programs",
+                "--disable-encoders",
+                "--disable-muxers",
+                "--disable-devices",
+                "--disable-hwaccels",
+                "--disable-decoders",
+                "--enable-decoder=aac",
+                "--enable-decoder=aac_latm",
+                "--enable-decoder=ac3",
+                "--enable-decoder=pcm",
+                "--enable-decoder=libopus",
+                "--enable-decoder=libspeex",
+                "--enable-decoder=libvorbis",
+                "--enable-decoder=mp1",
+                "--enable-decoder=mp2",
+                "--enable-decoder=mp3",
+                "--enable-decoder=mp3adu",
+                "--enable-decoder=vorbis",
+                "--disable-parsers",
+                "--enable-parser=aac",
+                "--enable-parser=aac_latm",
+                "--enable-parser=ac3",
+                "--enable-parser=flac",
+                "--enable-parser=mpegaudio",
+                "--enable-parser=vorbis"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://ffmpeg.org/releases/ffmpeg-1.2.12.tar.gz",
+                    "sha256": "b43b1b888ed5885760f10452fb2b9f5d1b384c49f6273e2e66129d9a3c7a837e"
+                }
+            ]
+        },
+        {
+            "name": "nodejs",
+            "cleanup": [
+                "/include",
+                "/share",
+                "/app/lib/node_modules/npm/changelogs",
+                "/app/lib/node_modules/npm/doc",
+                "/app/lib/node_modules/npm/html",
+                "/app/lib/node_modules/npm/man",
+                "/app/lib/node_modules/npm/scripts"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://nodejs.org/dist/v8.9.2/node-v8.9.2.tar.gz",
+                    "sha256": "8038fa61ac4562786fcc6d3229f3caa07a864b94bd5922fe75942a38ea1c3a3b"
+                }
+            ]
+        },
+        {
+            "name": "winamp2-js",
+            "buildsystem": "simple",
+            "build-commands": [
+                "npm install",
+                "npm run build-library",
+                "install -D built/winamp.bundle.js /app/lib/winamp2/node_modules/winamp2-js/built/winamp.bundle.js"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "cleanup": [
+                        "/bin",
+                        "node_modules"
+                    ],
+                    "url": "git://github.com/captbaritone/winamp2-js"
+                }
+            ]
+        },
+        {
+            "name": "winamp2",
+            "buildsystem": "simple",
+            "build-commands": [
+                "install winamp2 /app/bin/winamp2",
+                "npm install",
+                "cp -r node_modules /app/lib/winamp2",
+                "install -D com.jordaneldredge.Winamp2.appdata.xml /app/share/appdata/com.jordaneldredge.Winamp2.appdata.xml",
+                "cp index.html /app/lib/winamp2",
+                "cp index.js /app/lib/winamp2"
+            ],
+            "sources": [
+                {
+                    "type": "script",
+                    "commands": ["exec /app/lib/winamp2/node_modules/.bin/electron /app/lib/winamp2/index.js \"$@\""],
+                    "dest-filename": "winamp2"
+                },
+                {
+                    "type": "file",
+                    "path": "com.jordaneldredge.Winamp2.appdata.xml"
+                },
+                {
+                    "type": "file",
+                    "path": "package.json"
+                },
+                {
+                    "type": "file",
+                    "path": "index.html"
+                },
+                {
+                    "type": "file",
+                    "path": "index.js"
+                }
+            ]
+        }
+    ]
+}

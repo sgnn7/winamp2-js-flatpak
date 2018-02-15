@@ -1,0 +1,26 @@
+{
+  "name": "winamp2-js-flatpak",
+  "version": "0.0.1",
+  "description": "Winamp2-js as an Electron app",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgnn7/winamp2-js-flatpak.git"
+  },
+  "author": "Srdjan Grubor <sgnn7@sgnn7.org>",
+  "license": "LGPL-2.1",
+  "bugs": {
+    "url": "https://github.com/sgnn7/winamp2-js-flatpak/issues"
+  },
+  "homepage": "https://github.com/sgnn7/winamp2-js-flatpak#readme",
+  "devDependencies": {
+    "electron": "^1.8.2"
+  },
+  "dependencies": {
+    "winamp2-js": "captbaritone/winamp2-js"
+  }
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+
+  <body>
+    <div id='winamp2-js'></div>
+  </body>
+
+  <script>
+    try {
+        const Winamp = require('winamp2-js');
+
+        const winamp = new Winamp({
+            initialSkin: {
+                url: 'https://github.com/captbaritone/winamp2-js/raw/master/skins/base-2.91.wsz',
+            }
+        });
+        winamp.renderWhenReady(document.getElementById('winamp2-js'));
+    } catch(e) {
+        console.error(e.message);
+        alert(e.message);
+    }
+  </script>
+</html>
