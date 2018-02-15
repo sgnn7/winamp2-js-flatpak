@@ -2,6 +2,8 @@
 
 ## Electron'd and Flatpak'd Winamp2-js
 
+Original project: https://github.com/captbaritone/winamp2-js
+
 ## Prerequisites (Electron app)
 
 - Node.js
