@@ -1,0 +1,5 @@
+#!/bin/bash
+
+CURRENT_DIR=$(dirname $0)
+
+$CURRENT_DIR/node_modules/.bin/electron $CURRENT_DIR
